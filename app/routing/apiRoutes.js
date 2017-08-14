@@ -3,19 +3,27 @@ var express = require('express');
 var router = express.Router();
 var path = require("path");
 
-router.get('/api/friends', function(req, res) {
-    console.log("Hola!");
-});
-
 router.post('/api/friends', function(req, res) {
-    var newFriend = req.body;
+    var newFriend = req.body;    
+    var surveyScore;
+    var officeScore;
+    var result = 0;
+    var pointsAccum = 0;
+    var winner = 0;
 
-    var addFriend = new friend(newFriend.name, newFriend.photo, newFriend.q1, newFriend.q2, newFriend.q3, newFriend.q4, newFriend.q5, newFriend.q6, newFriend.q7, newFriend.q8, newFriend.q9, newFriend.q10);
-    friends.push(addFriend);
-    res.json(addFriend);
-
-    //handle incoming survey results. This route will also be used to handle the compatibility logic.
-    //res.sendFile(path.join(__dirname, "/../public/survey.html"));
+    for (var j=0; j < friends.length; j++) {
+    result = 0;
+     for (var i=0; i < 10; i++) {
+        officeScore = newFriend.scores[i];
+        eval("surveyScore = friends["+j+"].a"+1)+";";
+        result += Math.abs(officeScore-surveyScore);
+        if (j === 0 || result < pointsAccum) {
+            pointsAccum = result;
+            winner = j;
+        } 
+     }
+    }
+    res.json(friends[winner]);
 });
 
 module.exports = router;
